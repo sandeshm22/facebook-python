@@ -4,7 +4,8 @@
  # Pre-requisites
  Python 3x
  Install Facebook SDK
-   command : pip install facebook-sdk
+   command : python -m pip install facebook-sdk
+   python -m pip install pymongo
   
  # run : python facebook_api.py
    
