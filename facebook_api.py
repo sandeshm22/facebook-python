@@ -1,6 +1,8 @@
 import facebook
 import os
 import requests
+#import python_api
+import cassandra_cluster
 
 def fetchfriends(myID, graphAPI):
    myFriendsURL = "/" + myID + "/"
@@ -28,9 +30,10 @@ def downloadfile(imageSRC, photoID):
       f.write(r.content)
 
 def main():
-   graph = facebook.GraphAPI(access_token='EAAFzuZAjLpDABAI656GkcfAnRQmGrqJ1P0lQE3uKwpSZAlZAFUnHJJqJjyrgmPFRT9GX0UjSxDCVoYIDR6WZBa3rg2bqwyPq1rzZBitUfglGf2abmFw60o1JaV8ALzUnU92sictox3yE680vOA7UQQBzBwnEJZA1ZBQTzv0KASysHPrWvto9fcgZCyp3ZCuNixXsZD',version = 3.1)
-   user = graph.request('/me')
+   graph = facebook.GraphAPI(access_token='EAAFzuZAjLpDABAHCYgkZAE0VUIsXvbCMRkHdG7w1fzUN0zD1Ude6DDPei4MgGDsz5YKZAi4pCptoQKvpX0wLx7rkRS2w5tE7hUHwk7S5UxUpgkMXlNKJp79GUHN84h0XW1qZB0DMLqOL0OK8ovZBZAjxsKt1kizanIQoxajCKxNvA8e4A5cDHfuhb8KM8dWSsZD',version = 3.1)
+   user = graph.request('/me?fields=id,name')
    userID = user['id']
+   cassandra_cluster.insertUser(user) 
    userPhotosURL = "/"+userID+"/photos/"
    userPhotos = graph.request(userPhotosURL)
    #print(friendsList)
