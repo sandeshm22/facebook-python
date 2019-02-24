@@ -24,6 +24,7 @@ def load_photos():
 		url = photo_id + '?fields=id,name,album,backdated_time,from,icon,name_tags,place,likes,reactions,sharedposts'
 		#print(url)
 		photo_data = graph.request(url)
+		photo_data['_id'] = photo_data['id']
 		#print(photo_data)
 		mongodb_db_api.save_to_db_collection_by_name(photo_data, 'photo_data')
 			
