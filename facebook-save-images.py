@@ -2,7 +2,9 @@ import sys
 import facebook
 import mongodb_db_api
 import json
-import requests 
+import requests
+import app_config
+
 
 #640079569360625?fields=id,name,album,backdated_time,from,icon,name_tags,place,likes,reactions,sharedposts
 program_name = sys.argv[0]
@@ -10,14 +12,14 @@ arguments = sys.argv[1:]
 count = len(arguments)
 print(arguments)
 
-def get_graph():
-	graph = facebook.GraphAPI(access_token='EAAFzuZAjLpDABAPaf2H2dTmeI7nn8j0AXUTvvs6lWQ9TfZAhhNrUiPyOod3PaJMdkqHbNgL8gS4WTPerOhu04Y4p6XEGXBE9QIrceZC1TqBfS407aaKN5IJdVa4ZB8kdygTFsLy1Ia7bgbWEWlIisxZCcL2XnkIo20H7ZBN1lSo1Wr0ylbSx3vFXxuu9B2V9AZD',version = 3.1)
+def get_graph(app_token):
+	graph = facebook.GraphAPI(access_token=app_token,version = 3.1)
 	return graph
 
 
-def load_photos():
+def load_photos(app_token):
 	all_photos = mongodb_db_api.get_all_documents('user')
-	graph = get_graph()
+	graph = get_graph(app_token)
 	i=0
 	for item  in all_photos :
 		photo_id = item['id']
@@ -47,20 +49,22 @@ def get_user_photos(user, graph):
 def main():
 	mode_string = arguments[0]
 	mode= mode_string.split("=")
-	
+	app_token = app_config.get_fb_token()
 	if mode[1]=='fetch' :
 		print(mode[1])
-		graph = get_graph()
-		user = get_user_data()
+		graph = get_graph(app_token)
+		user = get_user_data(app_token)
 		photos = get_user_photos(user, graph)
 		mongodb_db_api.save_to_db_collection(user, 'user')
 		mongodb_db_api.print_collection('user')
 	else :
 		print(mode[1])
-		load_photos()
+		load_photos(app_token)
 	
-def get_user_data():
-	graph = get_graph() 
+		
+	
+def get_user_data(app_token):
+	graph = get_graph(app_config) 
 	user = graph.request('/me?fields=id,name,photos')
 	return user
    
