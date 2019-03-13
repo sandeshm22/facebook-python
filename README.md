@@ -10,3 +10,4 @@
  # run : python facebook_api.py
    
  
+# run : python -m pip install requests_oauthlib
