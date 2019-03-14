@@ -2,7 +2,7 @@ import facebook
 import os
 import requests
 #import python_api
-import cassandra_cluster
+#import cassandra_cluster
 
 def fetchfriends(myID, graphAPI):
    myFriendsURL = "/" + myID + "/"
@@ -30,10 +30,10 @@ def downloadfile(imageSRC, photoID):
       f.write(r.content)
 
 def main():
-   graph = facebook.GraphAPI(access_token='EAAFzuZAjLpDABAHCYgkZAE0VUIsXvbCMRkHdG7w1fzUN0zD1Ude6DDPei4MgGDsz5YKZAi4pCptoQKvpX0wLx7rkRS2w5tE7hUHwk7S5UxUpgkMXlNKJp79GUHN84h0XW1qZB0DMLqOL0OK8ovZBZAjxsKt1kizanIQoxajCKxNvA8e4A5cDHfuhb8KM8dWSsZD',version = 3.1)
+   graph = facebook.GraphAPI(access_token='EAAFzuZAjLpDABACt0hru1WTw3pfPBpKMzshptAJyHZCS8dnCpeaZBKfK50aVZBukVmXBIcwzuxbc3Vy4dOdfgCFATMrbzSUbwts6XcTrXKQj2IfG2Jl2v3jx0kf2y25Q5Y4QiQli6iQZCLjTE6dHCNjEprZBswmhqkD7RtGHM9KZAmTZBOyZAAJcsvRcC6tmimxcZD',version = 3.1)
    user = graph.request('/me?fields=id,name')
    userID = user['id']
-   cassandra_cluster.insertUser(user) 
+   #cassandra_cluster.insertUser(user) 
    userPhotosURL = "/"+userID+"/photos/"
    userPhotos = graph.request(userPhotosURL)
    #print(friendsList)
